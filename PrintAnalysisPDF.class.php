@@ -46,7 +46,7 @@ class PrintAnalysisPDF {
   private $resizeMulitple;
   private $imagesToPrint = array();
   
-	public function __construct($sourceFile, $paperFormat = "A4"){
+  public function __construct($sourceFile, $paperFormat = "A4"){
     if(file_exists($sourceFile)){
   		$this->setSourceFile($sourceFile);
   		$this->setPaperFormat($paperFormat);
