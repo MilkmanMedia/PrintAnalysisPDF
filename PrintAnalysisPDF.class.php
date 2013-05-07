@@ -49,9 +49,9 @@ class PrintAnalysisPDF {
   public function __construct($sourceFile, $paperFormat = "A4"){
     if(file_exists($sourceFile)){
       $this->setSourceFile($sourceFile);
-  	  $this->setPaperFormat($paperFormat);
-  	  $this->setPaperSize();
-  	  $this->setDimensions();
+      $this->setPaperFormat($paperFormat);
+      $this->setPaperSize();
+      $this->setDimensions();
   		
       ($this->imageHeight > $this->paperOuterHeight) ? ($this->createImageSlices()) : ($this->imagesToPrint[0] = $this->sourceFile);
     }
@@ -60,15 +60,15 @@ class PrintAnalysisPDF {
     }
 	}
 
-	private function setSourceFile($file){
+  private function setSourceFile($file){
     $this->sourceFile = $file;
   }
   
-	private function setPaperFormat($paperFormat){
+  private function setPaperFormat($paperFormat){
     $this->paperFormat = $paperFormat;
   }
-	
-	private function setPaperSize(){
+
+  private function setPaperSize(){
     $this->paperWidth = $this->paperMeasurments[$this->paperFormat]["width"];
     $this->paperHeight = $this->paperMeasurments[$this->paperFormat]["height"];
   }
@@ -78,7 +78,7 @@ class PrintAnalysisPDF {
     $this->setPaperDimensions();
   }
   
-	private function setImageDimensions(){
+  private function setImageDimensions(){
     list($this->imageWidth, $this->imageHeight) = getimagesize($this->sourceFile);
 
     if(!$this->paperWidth) $this->paperWidth = $this->imageWidth;
