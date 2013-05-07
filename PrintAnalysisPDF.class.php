@@ -48,10 +48,10 @@ class PrintAnalysisPDF {
   
   public function __construct($sourceFile, $paperFormat = "A4"){
     if(file_exists($sourceFile)){
-  		$this->setSourceFile($sourceFile);
-  		$this->setPaperFormat($paperFormat);
-  		$this->setPaperSize();
-  		$this->setDimensions();
+      $this->setSourceFile($sourceFile);
+  	  $this->setPaperFormat($paperFormat);
+  	  $this->setPaperSize();
+  	  $this->setDimensions();
   		
       ($this->imageHeight > $this->paperOuterHeight) ? ($this->createImageSlices()) : ($this->imagesToPrint[0] = $this->sourceFile);
     }
