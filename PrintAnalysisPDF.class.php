@@ -58,7 +58,7 @@ class PrintAnalysisPDF {
     else{
       $this->error("file '".$sourceFile."' does not exist.");
     }
-	}
+  }
 
   private function setSourceFile($file){
     $this->sourceFile = $file;
