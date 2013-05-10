@@ -2,9 +2,10 @@
 /*************************************************
  * Handmade by MilkmanMedia - www.MilkmanMedia.de
  *************************************************
- * Class PrintAnalysisPDF (v0.2)
+ * Class PrintAnalysisPDF (v0.3)
  *
  * version history
+ *  0.3: stopped deletion of sourceimage and prepared new feature for deleting temp images via param  
  *  0.2: added support for multiple paperformats e.g. fullsize or DIN-A3 to be able to generate print optimized PDF
  *  0.1: basic functionality for splitting sourceFile into several parts to fit in printable PDF size
  *
@@ -21,16 +22,16 @@ class PrintAnalysisPDF {
   private $paperFormat;
   private $paperMeasurments = Array(
     "A4" => Array(
-      "width" => 793.7,
-      "height" => 1122.52
+      "width" => 793.7, // default A4 paperwidth in px at 96dpi
+      "height" => 1122.52 // default A4 paperheight in px at 96dpi
     ),
     "FULL" => Array(
       "width" => false,
       "height" => false
     )
   );
-  private $paperWidth; // default A4 paperwidth in px at 96dpi
-  private $paperHeight; // default A4 paperheight in px at 96dpi
+  private $paperWidth;
+  private $paperHeight;
   private $paperInnerWidth;
   private $paperInnerHeight;
   private $paperOuterWidth;
@@ -45,6 +46,7 @@ class PrintAnalysisPDF {
   private $imageHeight;
   private $resizeMulitple;
   private $imagesToPrint = array();
+  private $deleteTmpImages = true;
   
   public function __construct($sourceFile, $paperFormat = "A4"){
     if(file_exists($sourceFile)){
@@ -52,7 +54,7 @@ class PrintAnalysisPDF {
       $this->setPaperFormat($paperFormat);
       $this->setPaperSize();
       $this->setDimensions();
-  		
+    	
       ($this->imageHeight > $this->paperOuterHeight) ? ($this->createImageSlices()) : ($this->imagesToPrint[0] = $this->sourceFile);
     }
     else{
@@ -116,8 +118,10 @@ class PrintAnalysisPDF {
         $pdf->AddPage("P", array($this->paperOuterWidth, $this->paperOuterHeight));
         $pdf->Image($imageName, $this->paperMargin["left"], $this->paperMargin["top"], $this->imageWidth);	
         
-        // there is no need to set up an extra function for deleting the split images
-        unlink($imageName);
+        if($this->deleteTmpImages && count($this->imagesToPrint) > 1){          
+          // there is no need to set up an extra function for deleting the split images
+          unlink($imageName);
+        }
       }
       
       $pdf->Output();
